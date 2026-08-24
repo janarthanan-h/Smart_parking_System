@@ -1,4 +1,4 @@
-package orj.application;
+package orj.application.controller;
 
 import java.util.List;
 
@@ -9,9 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
+import orj.application.entity.parkingData;
+import orj.application.entity.user;
+import orj.application.services.Servicess;
+
 @RestController
+@RequestMapping("/BJP")
 public class Controll {
 	
 	@Autowired
@@ -21,10 +28,15 @@ public class Controll {
 	    public List<parkingData> getParkingData() {
 	        return ser.getAllData();
 	    }
+	    
+	    @PostMapping("/login")
+	    public String Login(@RequestBody user login,HttpSession session) {
+	    	return ser.login(session,login);
+	    }
 
 	    @PostMapping("/in")
-	    public parkingData vehicleIn(@RequestBody parkingData data) {
-	        return ser.vehicleIn(data);
+	    public String vehicleIn(@RequestBody parkingData data,HttpSession session) {
+	        return ser.vehicleIn(data,session);
 	    }
 
 	    @PutMapping("/out/{slotno}")
