@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 import orj.application.entity.parkingData;
-import orj.application.entity.user;
-import orj.application.services.Servicess;
+import orj.application.entity.userData;
+import orj.application.services.ParkDataServicess;
+import orj.application.services.UserDataServices;
 
 @RestController
-@RequestMapping("/BJP")
-public class Controll {
+@RequestMapping("/jpa/smps/")
+public class ParkDataControll {
 	
 	@Autowired
-	Servicess ser;
+	private ParkDataServicess ser;
+	
+	@Autowired
+	private UserDataServices User;
 	
 	 @GetMapping("/get")
 	    public List<parkingData> getParkingData() {
@@ -30,24 +34,26 @@ public class Controll {
 	    }
 	    
 	    @PostMapping("/login")
-	    public String Login(@RequestBody user login,HttpSession session) {
-	    	return ser.login(session,login);
+	    public String Login(@RequestBody userData login,HttpSession session) {
+	    	return User.login(session,login);
 	    }
-
+	    
 	    @PostMapping("/in")
-	    public String vehicleIn(@RequestBody parkingData data,HttpSession session) {
+	    public String vehicleIn(@RequestBody parkingData data,
+	    		HttpSession session) {
+	    	
 	        return ser.vehicleIn(data,session);
 	    }
 
 	    @PutMapping("/out/{slotno}")
 	    public parkingData vehicleOut(@PathVariable("slotno") int slotno) {
-
+	    	
 	        return ser.vehicleOut(slotno);
 	    }
 	  
 	    @DeleteMapping("/delete/{slotno}")
 	    public String deleteParkingData(@PathVariable("slotno") int slotno) {
-
+	    	
 	        return ser.deleteParkingData(slotno);
 	    }
 	    

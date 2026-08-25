@@ -10,18 +10,14 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import orj.application.entity.parkingData;
-import orj.application.entity.user;
+import orj.application.entity.userData;
 import orj.application.repositary.ParkingRepositary;
-import orj.application.repositary.UserRepositary;
 
 @Service
-public class Servicess {
+public class ParkDataServicess {
 	
 	@Autowired
 	private ParkingRepositary park;
-	
-	@Autowired
-	private UserRepositary User;
 	
 	 public List<parkingData> getAllData() {
 	        return park.findAll();
@@ -110,22 +106,6 @@ public class Servicess {
 
 	         return park.save(data);
 	   }
-	 
-	 public String login(HttpSession session, user login) {
-
-		 Optional<user> Log = User.findByUserNameAndPassword(
-	                login.getUserName(),
-	                login.getPassword()
-	        ); 
-		 if (Log.isPresent()) {
-
-		        session.setAttribute("user", login.getUserName());
-
-		        return "Login Successful";
-		    }
-		 return "Invalid Username or Password";
-		    
-		}
 	     
 	     
 	 }

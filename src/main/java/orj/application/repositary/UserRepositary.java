@@ -3,11 +3,10 @@ package orj.application.repositary;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import orj.application.entity.userData;
 
-import orj.application.entity.user;
-
-public interface UserRepositary extends JpaRepository<user, Integer> {
+public interface UserRepositary extends JpaRepository<userData,Integer> {
 	
-	Optional<user> findByUserNameAndPassword(String userName,String password);
+	Optional<userData> findByNameAndPassword(String name,String password);
 
 }

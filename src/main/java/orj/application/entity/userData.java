@@ -8,13 +8,13 @@ import lombok.Data;
 
 @Data
 @Entity
-public class user {
+public class userData {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String userName;
+    private String name;
     private String password;
-	
+
 }
