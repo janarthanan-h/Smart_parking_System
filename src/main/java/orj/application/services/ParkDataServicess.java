@@ -3,14 +3,14 @@ package orj.application.services;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
+import orj.application.entity.ParkingHistoryData;
 import orj.application.entity.parkingData;
-import orj.application.entity.userData;
+import orj.application.repositary.ParkingHistoryRepositary;
 import orj.application.repositary.ParkingRepositary;
 
 @Service
@@ -18,6 +18,9 @@ public class ParkDataServicess {
 	
 	@Autowired
 	private ParkingRepositary park;
+	
+	@Autowired
+	private ParkingHistoryRepositary History;
 	
 	 public List<parkingData> getAllData() {
 	        return park.findAll();
@@ -77,7 +80,12 @@ public class ParkDataServicess {
 		}
 	 
 
-	 public parkingData vehicleOut(int slotno) {
+	 public String vehicleOut(int slotno,HttpSession session) {
+		 
+		 Object attribute = session.getAttribute("user");
+		 if (attribute == null) {
+				return "Please Login First";
+			}
 
 	         parkingData data = park.findById(slotno)
 	                 .orElseThrow(() ->
@@ -97,14 +105,32 @@ public class ParkDataServicess {
 	         if (hours == 0) {
 	             hours = 1;
 	         }
-
+	         double amount = hours * 40;
 	         data.setDuration(hours);
 
-	         double amount = hours * 40;
-
 	         data.setAmount(amount);
+	         
+	         ParkingHistoryData Ph=new ParkingHistoryData();
+	         
+	         Ph.setSlotno(data.getSlotno());
+	         
+	         Ph.setDriverName(data.getDriverName());
+	         
+	         Ph.setCarNumber(data.getCarNumber());
+	         
+	         Ph.setAmount(data.getAmount());
+	         
+	         Ph.setDuration(data.getDuration());
+	         
+	         Ph.setInTime(data.getOutTime());
+	         
+	         Ph.setOutTime(data.getOutTime());
+	       
+	         History.save(Ph);
+	         
+	         park.save(data);
 
-	         return park.save(data);
+	         return "Slotnumber :"+slotno +" -> Car is exit";
 	   }
 	     
 	     

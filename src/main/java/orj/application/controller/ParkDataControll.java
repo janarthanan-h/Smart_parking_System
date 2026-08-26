@@ -19,7 +19,7 @@ import orj.application.services.ParkDataServicess;
 import orj.application.services.UserDataServices;
 
 @RestController
-@RequestMapping("/jpa/smps/")
+@RequestMapping("/jpa/smps/Parking")
 public class ParkDataControll {
 	
 	@Autowired
@@ -39,16 +39,15 @@ public class ParkDataControll {
 	    }
 	    
 	    @PostMapping("/in")
-	    public String vehicleIn(@RequestBody parkingData data,
-	    		HttpSession session) {
+	    public String vehicleIn(@RequestBody parkingData data,HttpSession session) {
 	    	
 	        return ser.vehicleIn(data,session);
 	    }
 
 	    @PutMapping("/out/{slotno}")
-	    public parkingData vehicleOut(@PathVariable("slotno") int slotno) {
+	    public String vehicleOut(@PathVariable("slotno") int slotno ,HttpSession session) {
 	    	
-	        return ser.vehicleOut(slotno);
+	        return ser.vehicleOut(slotno,session);
 	    }
 	  
 	    @DeleteMapping("/delete/{slotno}")
